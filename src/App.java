@@ -3,6 +3,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import controllers.MazeSolverBFS;
+import controllers.MazeSolverDP;
 import controllers.MazeSolverRecursivo;
 import controllers.interfaces.MazeSolver;
 import models.Cell;
@@ -13,7 +14,7 @@ public class App {
         boolean[][] laberinto = {
             {true, true, true, true},
             {false, true, true, true},
-            {true, true, false, false},
+            {true, false, false, false},
             {true, true, true, true}
         };
 
@@ -21,21 +22,22 @@ public class App {
         System.out.println("Laberinto");
         maze.printMaze();
 
-        Cell start = new Cell(0, 3);
+        Cell start = new Cell(0, 0);
         Cell end = new Cell(3, 3);
 
         List<MazeSolver> soluciones = Arrays.asList(
-            new MazeSolverRecursivo(),
-            new MazeSolverBFS());
+            new MazeSolverRecursivo());
+            //new MazeSolverDP());
+            //new MazeSolverBFS());
 
         int option = 1;
-        MazeSolver solver = soluciones.get(1 -1);
-        List<Cell> path = solver.getPath(laberinto, start, end);
+        MazeSolver solver = soluciones.get(1 - 1);
+        List<Cell> path = solver.getPath(maze, laberinto, start, end);
         System.out.println("\nCamino encontrado");
         System.out.println(path);
         System.out.println();
         System.out.println("Laberinto con el camino recorrido: ");
-        maze.printMazeSolution(path);
+        maze.printMazeWithPath(path);
 
         
     }
