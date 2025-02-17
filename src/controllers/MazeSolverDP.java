@@ -43,6 +43,7 @@ public class MazeSolverDP implements MazeSolver {
              return false;
         }
         visitadas.add(cell);
+        maze.updateMaze(cell, start, end);
 
         if(findPath(maze, grid, row + 1, col, end, start, path, visitadas) || findPath(maze, grid, row, col + 1, end, start, path, visitadas)){
             path.add(cell);

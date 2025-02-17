@@ -2,16 +2,18 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
+import controllers.ControllerView;
 import controllers.MazeSolverBFS;
 import controllers.MazeSolverDP;
 import controllers.MazeSolverRecursivo;
 import controllers.interfaces.MazeSolver;
 import models.Cell;
 import models.Maze;
+import views.ViewMain;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        boolean[][] laberinto = {
+        /*boolean[][] laberinto = {
             {true, true, true, true},
             {false, true, true, true},
             {true, false, false, false},
@@ -26,8 +28,8 @@ public class App {
         Cell end = new Cell(3, 3);
 
         List<MazeSolver> soluciones = Arrays.asList(
-            new MazeSolverRecursivo());
-            //new MazeSolverDP());
+            //new MazeSolverRecursivo());
+            new MazeSolverDP());
             //new MazeSolverBFS());
 
         int option = 1;
@@ -37,8 +39,12 @@ public class App {
         System.out.println(path);
         System.out.println();
         System.out.println("Laberinto con el camino recorrido: ");
-        maze.printMazeWithPath(path);
+        maze.printMazeWithPath(path); */
 
+
+        ViewMain viewMain = new ViewMain();
+        ControllerView controllerView = new ControllerView(viewMain);
+        viewMain.setVisible(true);
         
     }
     
