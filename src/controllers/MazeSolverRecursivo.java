@@ -41,30 +41,30 @@ public class MazeSolverRecursivo implements MazeSolver{
         } 
 
         visitados.add(cell);
-        maze.updateMaze(cell, start, end);
+        //maze.updateMaze(cell, start, end);
         
         if (row == end.row && col == end.col){
-            path.add(cell);
+            path.add(0, cell);
             return true;
         }
 
         if (findPath(maze, grid, row + 1, col, end, start, path, visitados)){
-            path.add(cell);
+            path.add(0, cell);
             return true;
         }
 
         if (findPath(maze, grid, row, col + 1, end, start, path, visitados)) {
-            path.add(cell);
+            path.add(0, cell);
             return true;
         }
 
         if (findPath(maze, grid, row - 1, col, end, start, path, visitados)){
-            path.add(cell);
+            path.add(0, cell);
             return true;
         }
 
         if (findPath(maze, grid, row, col - 1, end, start, path, visitados)) {
-            path.add(cell);
+            path.add(0, cell);
             return true;
         }
 

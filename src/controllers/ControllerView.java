@@ -2,10 +2,14 @@ package controllers;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
+import models.Cell;
+import models.Maze;
 import views.ViewMain;
 import views.ViewMaze;
 
@@ -20,8 +24,8 @@ public class ControllerView {
     }
 
     private void agregarEventosMain(){
-        viewMain.getBtnAceptar().addActionListener(_ -> aceptar());
-        viewMain.getBtnDefault().addActionListener(_ -> defaultMaze());
+        viewMain.getBtnAceptar().addActionListener(e -> aceptar());
+        viewMain.getBtnDefault().addActionListener(e -> defaultMaze());
     }
 
     public void aceptar(){
@@ -60,11 +64,12 @@ public class ControllerView {
     }
     
     private void agregarEventosMaze(){
-        viewMaze.getBtnObstaculos().addActionListener(_ -> obstaculos());
-        viewMaze.getBtnSolverBFS().addActionListener(_ -> solverBFS());
-        viewMaze.getBtnSolverDP().addActionListener(_ -> solverDP());
-        viewMaze.getBtnSolverRec().addActionListener(_ -> solverRec());
-        viewMaze.getBtnReiniciar().addActionListener(_ -> reiniciarMaze());
+        viewMaze.getBtnObstaculos().addActionListener(e -> obstaculos());
+        viewMaze.getBtnSolverBFS().addActionListener(e -> solverBFS());
+        viewMaze.getBtnSolverDP().addActionListener(e -> solverDP());
+        viewMaze.getBtnSolverRec().addActionListener(e -> solverRec());
+        viewMaze.getBtnSolverDFS().addActionListener(e -> solverDFS());
+        viewMaze.getBtnReiniciar().addActionListener(e -> reiniciarMaze());
     }
 
     public void obstaculos(){
@@ -86,7 +91,7 @@ public class ControllerView {
                         botones[row][col].removeActionListener(al);
                     }
 
-                    botones[i][j].addActionListener(_ -> {
+                    botones[i][j].addActionListener(e -> {
                         if (editable){
                             boolean defaultValue = maze[row][col];
                             Color defaultColor = botones[row][col].getBackground();
@@ -98,8 +103,8 @@ public class ControllerView {
             }
         }
 
-        viewMaze.getBtnAceptar().addActionListener(_ -> cerrarOpciones());
-        viewMaze.getBtnLimpiar().addActionListener(_ -> {cerrarOpciones();
+        viewMaze.getBtnAceptar().addActionListener(e -> cerrarOpciones());
+        viewMaze.getBtnLimpiar().addActionListener(e -> {cerrarOpciones();
             defaultBotones();});
     }
 
@@ -130,51 +135,228 @@ public class ControllerView {
     }
 
     public void solverBFS(){
-        if (viewMaze.getTiempoDemora().isSelected()){
+        boolean tiempoSeleccionado = viewMaze.getTiempoDemora().isSelected();
+        processBFS(tiempoSeleccionado);
+    }
+
+    private void processBFS(boolean tiempoSeleccionado){
+        MazeSolverBFS mazeSolverBFS = new MazeSolverBFS();
+        Cell start = new Cell(viewMaze.getInicioX(), viewMaze.getInicioY());
+        Cell end = new Cell(viewMaze.getDesX(), viewMaze.getDesY());
+        List<Cell> rutaResultado = mazeSolverBFS.getPath(new Maze(viewMaze.getMaze()), viewMaze.getMaze(), start, end);
+        JButton[][] botones = viewMaze.getMazeButtons();
+        Set<Cell> visitadas = mazeSolverBFS.getVisitadas();
+
+        reiniciarRecorrido(botones, viewMaze.getMaze());
+        
+        if (tiempoSeleccionado){
             long startTime = System.nanoTime();
-            processBFS();
+            new Thread(() -> {
+                for (Cell celda : visitadas){
+                    int x = celda.row;
+                    int y = celda.col;
+                    if (!(x == viewMaze.getInicioX() && y == viewMaze.getInicioY()) && 
+                    !(x == viewMaze.getDesX() && y == viewMaze.getDesY())){
+                        if (rutaResultado.isEmpty()){
+                            botones[x][y].setBackground(Color.RED);
+                        } else {
+                            botones[x][y].setBackground(rutaResultado.contains(celda) ? Color.GREEN : Color.RED);
+                        }
+                    }
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e){
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }).start();
             long endTime = System.nanoTime();
             double tiempoDemora = (endTime - startTime) / 1_000_000.0;
             JOptionPane.showMessageDialog(viewMaze, "Tiempo de ejecucion: " + tiempoDemora + " ms");
+            System.out.println(visitadas);
         } else {
-            processBFS();
+            for (Cell celda : visitadas) {
+                int x = celda.row;
+                int y = celda.col;
+                if (!(x == viewMaze.getInicioX() && y == viewMaze.getInicioY()) && 
+                    !(x == viewMaze.getDesX() && y == viewMaze.getDesY())){
+                        if (rutaResultado.isEmpty()){
+                            botones[x][y].setBackground(Color.RED);
+                        } else {
+                            botones[x][y].setBackground(rutaResultado.contains(celda) ? Color.GREEN : Color.RED);
+                        }
+                    }
+            }
         }
-    }
-
-    private void processBFS(){
-        
     }
 
     public void solverDP(){
-        if (viewMaze.getTiempoDemora().isSelected()){
+        boolean tiempoSeleccionado = viewMaze.getTiempoDemora().isSelected();
+        processDP(tiempoSeleccionado);
+    }
+
+    private void processDP(boolean tiempoSeleccionado){
+        MazeSolverDP mazeSolverDP = new MazeSolverDP();
+        Cell start = new Cell(viewMaze.getInicioX(), viewMaze.getInicioY());
+        Cell end = new Cell(viewMaze.getDesX(), viewMaze.getDesY());
+        List<Cell> rutaResultado = mazeSolverDP.getPath(new Maze(viewMaze.getMaze()), viewMaze.getMaze(), start, end);
+        Set<Cell> visitadas = mazeSolverDP.getVisitadas();
+        JButton[][] botones = viewMaze.getMazeButtons();
+
+        reiniciarRecorrido(botones, viewMaze.getMaze());
+        
+        if (tiempoSeleccionado){
             long startTime = System.nanoTime();
-            processDP();
+            new Thread(() -> {
+                for (Cell celda : visitadas){
+                    int x = celda.row;
+                    int y = celda.col;
+                    if (!(x == viewMaze.getInicioX() && y == viewMaze.getInicioY()) && 
+                    !(x == viewMaze.getDesX() && y == viewMaze.getDesY())){
+                        botones[x][y].setBackground(rutaResultado.contains(celda) ? Color.GREEN : Color.RED);
+                    }
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e){
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }).start();
             long endTime = System.nanoTime();
             double tiempoDemora = (endTime - startTime) / 1_000_000.0;
             JOptionPane.showMessageDialog(viewMaze, "Tiempo de ejecucion: " + tiempoDemora + " ms");
         } else {
-            processDP();
+            for (Cell celda : visitadas) {
+                int x = celda.row;
+                int y = celda.col;
+                if (!(x == viewMaze.getInicioX() && y == viewMaze.getInicioY()) && 
+                    !(x == viewMaze.getDesX() && y == viewMaze.getDesY())){
+                        botones[x][y].setBackground(rutaResultado.contains(celda) ? Color.GREEN : Color.RED);
+                    }
+                
+            }
         }
-    }
-
-    private void processDP(){
-        
     }
 
     public void solverRec(){
-        if (viewMaze.getTiempoDemora().isSelected()){
+        boolean tiempoSeleccionado = viewMaze.getTiempoDemora().isSelected();
+        processRec(tiempoSeleccionado);
+    }
+
+    private void processRec(boolean tiempoSeleccionado){
+        MazeSolverRecursivo mazeSolverRec = new MazeSolverRecursivo();
+        Cell start = new Cell(viewMaze.getInicioX(), viewMaze.getInicioY());
+        Cell end = new Cell(viewMaze.getDesX(), viewMaze.getDesY());
+        List<Cell> rutaResultado = mazeSolverRec.getPath(new Maze(viewMaze.getMaze()), viewMaze.getMaze(), start, end);
+        JButton[][] botones = viewMaze.getMazeButtons();
+
+        reiniciarRecorrido(botones, viewMaze.getMaze());
+        
+        if (tiempoSeleccionado){
             long startTime = System.nanoTime();
-            processRec();
+            new Thread(() -> {
+                for (Cell celda : rutaResultado){
+                    int x = celda.row;
+                    int y = celda.col;
+                    if (!(x == viewMaze.getInicioX() && y == viewMaze.getInicioY()) && 
+                    !(x == viewMaze.getDesX() && y == viewMaze.getDesY())){
+                        if (rutaResultado.isEmpty()){
+                            botones[x][y].setBackground(Color.RED);
+                        } else {
+                            botones[x][y].setBackground(rutaResultado.contains(celda) ? Color.GREEN : Color.RED);
+                        }
+                    }
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e){
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }).start();
             long endTime = System.nanoTime();
             double tiempoDemora = (endTime - startTime) / 1_000_000.0;
             JOptionPane.showMessageDialog(viewMaze, "Tiempo de ejecucion: " + tiempoDemora + " ms");
         } else {
-            processRec();
+            for (Cell celda : rutaResultado) {
+                int x = celda.row;
+                int y = celda.col;
+                if (!(x == viewMaze.getInicioX() && y == viewMaze.getInicioY()) && 
+                    !(x == viewMaze.getDesX() && y == viewMaze.getDesY())){
+                        if (rutaResultado.isEmpty()){
+                            botones[x][y].setBackground(Color.RED);
+                        } else {
+                            botones[x][y].setBackground(rutaResultado.contains(celda) ? Color.GREEN : Color.RED);
+                        }
+                    }
+            }
         }
     }
 
-    private void processRec(){
+    public void solverDFS(){
+        boolean tiempoSeleccionado = viewMaze.getTiempoDemora().isSelected();
+        processDFS(tiempoSeleccionado);
+    }
 
+    private void processDFS(boolean tiempoSeleccionado){
+        MazeSolverDFS mazeSolverDFS = new MazeSolverDFS();
+        Cell start = new Cell(viewMaze.getInicioX(), viewMaze.getInicioY());
+        Cell end = new Cell(viewMaze.getDesX(), viewMaze.getDesY());
+        List<Cell> rutaResultado = mazeSolverDFS.getPath(new Maze(viewMaze.getMaze()), viewMaze.getMaze(), start, end);
+        JButton[][] botones = viewMaze.getMazeButtons();
+
+        reiniciarRecorrido(botones, viewMaze.getMaze());
+        
+        if (tiempoSeleccionado){
+            long startTime = System.nanoTime();
+            new Thread(() -> {
+                for (Cell celda : rutaResultado){
+                    int x = celda.row;
+                    int y = celda.col;
+                    if (!(x == viewMaze.getInicioX() && y == viewMaze.getInicioY()) && 
+                    !(x == viewMaze.getDesX() && y == viewMaze.getDesY())){
+                        if (rutaResultado.isEmpty()){
+                            botones[x][y].setBackground(Color.RED);
+                        } else {
+                            botones[x][y].setBackground(rutaResultado.contains(celda) ? Color.GREEN : Color.RED);
+                        }
+                    }
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e){
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }).start();
+            long endTime = System.nanoTime();
+            double tiempoDemora = (endTime - startTime) / 1_000_000.0;
+            JOptionPane.showMessageDialog(viewMaze, "Tiempo de ejecucion: " + tiempoDemora + " ms");
+        } else {
+            for (Cell celda : rutaResultado) {
+                int x = celda.row;
+                int y = celda.col;
+                if (!(x == viewMaze.getInicioX() && y == viewMaze.getInicioY()) && 
+                    !(x == viewMaze.getDesX() && y == viewMaze.getDesY())){
+                        if (rutaResultado.isEmpty()){
+                            botones[x][y].setBackground(Color.RED);
+                        } else {
+                            botones[x][y].setBackground(rutaResultado.contains(celda) ? Color.GREEN : Color.RED);
+                        }
+                    }
+            }
+        }
+    }
+
+    public void reiniciarRecorrido(JButton[][] botones, boolean[][] maze){
+        for(int i = 0; i < viewMaze.getRows(); i++){
+            for (int j = 0; j < viewMaze.getCols(); j++){
+                if (!(i == viewMaze.getInicioX() && j == viewMaze.getInicioY()) && 
+                    !(i == viewMaze.getDesX() && j == viewMaze.getDesY())){
+                        if (maze[i][j]){
+                            botones[i][j].setBackground(null);
+                        }
+                    }
+            }
+        }
     }
 
 }

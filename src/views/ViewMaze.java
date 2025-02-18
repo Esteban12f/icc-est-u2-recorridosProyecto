@@ -9,7 +9,7 @@ import javax.swing.*;
 
 public class ViewMaze extends JFrame{
     private JPanel panelMaze, panelInferior, panelButtons, panelOpciones;
-    private JButton btnObstaculos, btnSolverBFS, btnSolverDP, btnSolverRec, btnReiniciar, btnAceptar, btnLimpiar;
+    private JButton btnObstaculos, btnSolverBFS, btnSolverDP, btnSolverDFS, btnSolverRec, btnReiniciar, btnAceptar, btnLimpiar;
     private JCheckBox tiempoDemora;
     private JButton[][] mazeButtons;
     private boolean[][] maze;
@@ -36,6 +36,7 @@ public class ViewMaze extends JFrame{
         btnSolverBFS = new JButton("Recorrido BFS");
         btnSolverDP = new JButton("Recorrido DP");
         btnSolverRec = new JButton("Recorrido recursivo");
+        btnSolverDFS = new JButton("Recorrido DFS");
         tiempoDemora = new JCheckBox();
 
         setLayout(new BorderLayout());
@@ -52,7 +53,7 @@ public class ViewMaze extends JFrame{
                         mazeButtons[i][j].setBackground(Color.BLUE);
                     } else {
                         mazeButtons[i][j].setText("B");
-                        mazeButtons[i][j].setBackground(Color.RED);
+                        mazeButtons[i][j].setBackground(Color.BLUE);
                     }
                     
                 }
@@ -68,6 +69,7 @@ public class ViewMaze extends JFrame{
         panelButtons.setLayout(new FlowLayout());
         panelButtons.add(btnObstaculos);
         panelButtons.add(btnSolverBFS);
+        panelButtons.add(btnSolverDFS);
         panelButtons.add(btnSolverDP);
         panelButtons.add(btnSolverRec);
         panelButtons.add(btnReiniciar);
@@ -80,7 +82,7 @@ public class ViewMaze extends JFrame{
         add(panelMaze, BorderLayout.CENTER);
         add(panelInferior, BorderLayout.SOUTH);
 
-        setSize(800, 500);
+        setSize(900, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -117,6 +119,10 @@ public class ViewMaze extends JFrame{
 
     public JButton getBtnSolverBFS() {
         return btnSolverBFS;
+    }
+
+    public JButton getBtnSolverDFS() {
+        return btnSolverDFS;
     }
 
     public JButton getBtnSolverDP() {

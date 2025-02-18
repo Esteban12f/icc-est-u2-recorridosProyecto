@@ -16,7 +16,7 @@ public class App {
         /*boolean[][] laberinto = {
             {true, true, true, true},
             {false, true, true, true},
-            {true, false, false, false},
+            {true, true, false, false},
             {true, true, true, true}
         };
 
@@ -29,8 +29,8 @@ public class App {
 
         List<MazeSolver> soluciones = Arrays.asList(
             //new MazeSolverRecursivo());
-            new MazeSolverDP());
-            //new MazeSolverBFS());
+            //new MazeSolverDP());
+            new MazeSolverBFS());
 
         int option = 1;
         MazeSolver solver = soluciones.get(1 - 1);

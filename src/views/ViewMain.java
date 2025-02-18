@@ -41,10 +41,7 @@ public class ViewMain extends JFrame{
         txtYInicio.setBounds(75, 250, 100, 20);
         txtXDes.setBounds(250, 225, 100, 20);
         txtYDes.setBounds(250, 250, 100, 20);
-        focusListener(txtXInicio, "X");
-        focusListener(txtYInicio, "Y");
-        focusListener(txtXDes, "X");
-        focusListener(txtYDes, "Y");
+        mantenerTexto();
 
         txtCol.setBounds(75, 125, 100, 30);
         txtRow.setBounds(250, 125, 100, 30);
@@ -77,6 +74,13 @@ public class ViewMain extends JFrame{
         || txtYDes.getText().isEmpty() || txtRow.getText().isEmpty() || txtCol.getText().isEmpty());
     }
 
+    public void mantenerTexto(){
+        focusListener(txtXInicio, "X");
+        focusListener(txtYInicio, "Y");
+        focusListener(txtXDes, "X");
+        focusListener(txtYDes, "Y");
+    }
+    
     private void focusListener(JTextField campo, String s){
         campo.addFocusListener(new FocusAdapter() {
             @Override
