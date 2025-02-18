@@ -74,6 +74,10 @@ public class ViewMain extends JFrame{
         || txtYDes.getText().isEmpty() || txtRow.getText().isEmpty() || txtCol.getText().isEmpty());
     }
 
+    public boolean emptyDefaultSpaces(){
+        return !(txtRow.getText().isEmpty() || txtCol.getText().isEmpty());
+    }
+
     public void mantenerTexto(){
         focusListener(txtXInicio, "X");
         focusListener(txtYInicio, "Y");

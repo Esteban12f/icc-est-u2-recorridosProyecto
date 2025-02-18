@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -11,18 +12,20 @@ import models.Maze;
 
 public class MazeSolverRecursivo implements MazeSolver{
 
+    private Set<Cell> visitadas = new LinkedHashSet<>();
+
     @Override
     public List<Cell> getPath(Maze maze, boolean[][] grid, Cell start, Cell end) {
         
         List<Cell> path = new ArrayList<>();
-        Set<Cell> visitadas = new HashSet<>();
         if (grid == null || grid.length == 0){
             return path;
         }
 
-        //if (findPath(grid, start.row, start.col, end, path, visitadas)) {
-            //return path;
-        //}
+        /*if (findPath(grid, start.row, start.col, end, path, visitadas)) {
+            return path;
+        }*/
+        
         findPath(maze, grid, start.row, start.col, end, start, path, visitadas);
         List<Cell> pathRecorrido = new ArrayList<>(visitadas);
         
@@ -73,5 +76,9 @@ public class MazeSolverRecursivo implements MazeSolver{
 
         return false;
     }
-    
+
+    public Set<Cell> getVisitadas() {
+        return visitadas;
+    }
+
 }

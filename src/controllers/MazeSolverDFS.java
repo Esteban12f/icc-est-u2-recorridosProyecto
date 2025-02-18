@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -11,7 +12,7 @@ import models.Maze;
 
 public class MazeSolverDFS implements MazeSolver {
 
-    private Set<Cell> visited = new HashSet<>();
+    private Set<Cell> visited = new LinkedHashSet<>();
 
     @Override
     public List<Cell> getPath(Maze maze, boolean[][] grid, Cell start, Cell end) {
@@ -42,4 +43,9 @@ public class MazeSolverDFS implements MazeSolver {
     private boolean isValid(boolean[][] grid, int row, int col) {
         return row >= 0 && row < grid.length && col >= 0 && col < grid[0].length && grid[row][col];
     }
+
+    public Set<Cell> getVisited() {
+        return visited;
+    }
+
 }

@@ -37,6 +37,8 @@ public class MazeSolverBFS implements MazeSolver{
                     path.add(0, actual);
                     actual = predecesores.get(actual);
                 }
+
+                visitadas.retainAll(path);
                 return path;
             }
             //Explorar 4 direcciones

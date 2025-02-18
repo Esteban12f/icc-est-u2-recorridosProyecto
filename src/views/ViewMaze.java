@@ -30,7 +30,7 @@ public class ViewMaze extends JFrame{
         maze = new boolean[rows][cols];
         
         btnAceptar = new JButton("Aceptar");
-        btnLimpiar = new JButton("Limpiar Obstaculos");
+        btnLimpiar = new JButton("Limpiar Laberinto");
         btnObstaculos = new JButton("Poner Obstaculos");
         btnReiniciar = new JButton("Reiniciar");
         btnSolverBFS = new JButton("Recorrido BFS");

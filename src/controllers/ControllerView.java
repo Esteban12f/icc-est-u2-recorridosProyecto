@@ -57,10 +57,16 @@ public class ControllerView {
     }
 
     public void defaultMaze(){
-        viewMaze = new ViewMaze(10, 10, 0, 0, 9, 9);
-        agregarEventosMaze();
-        viewMain.dispose();
-        viewMaze.setVisible(true);
+        if (viewMain.emptyDefaultSpaces()){
+            int rows = Integer.parseInt(viewMain.getTxtRow().getText());
+            int cols = Integer.parseInt(viewMain.getTxtCol().getText());
+            viewMaze = new ViewMaze(rows, cols, 0, 0, rows - 1, cols - 1);
+            agregarEventosMaze();
+            viewMain.dispose();
+            viewMaze.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(viewMain, "Se debe ingresar el tamaño del laberinto :/");
+        }
     }
     
     private void agregarEventosMaze(){
@@ -173,7 +179,8 @@ public class ControllerView {
             long endTime = System.nanoTime();
             double tiempoDemora = (endTime - startTime) / 1_000_000.0;
             JOptionPane.showMessageDialog(viewMaze, "Tiempo de ejecucion: " + tiempoDemora + " ms");
-            System.out.println(visitadas);
+            System.out.println("visitadas: " + visitadas);
+            System.out.println("path resultado: " + rutaResultado);
         } else {
             for (Cell celda : visitadas) {
                 int x = celda.row;
@@ -200,20 +207,24 @@ public class ControllerView {
         Cell start = new Cell(viewMaze.getInicioX(), viewMaze.getInicioY());
         Cell end = new Cell(viewMaze.getDesX(), viewMaze.getDesY());
         List<Cell> rutaResultado = mazeSolverDP.getPath(new Maze(viewMaze.getMaze()), viewMaze.getMaze(), start, end);
-        Set<Cell> visitadas = mazeSolverDP.getVisitadas();
         JButton[][] botones = viewMaze.getMazeButtons();
+        Set<Cell> visitados = mazeSolverDP.getVisitadas();
 
         reiniciarRecorrido(botones, viewMaze.getMaze());
         
         if (tiempoSeleccionado){
             long startTime = System.nanoTime();
             new Thread(() -> {
-                for (Cell celda : visitadas){
+                for (Cell celda : visitados){
                     int x = celda.row;
                     int y = celda.col;
                     if (!(x == viewMaze.getInicioX() && y == viewMaze.getInicioY()) && 
                     !(x == viewMaze.getDesX() && y == viewMaze.getDesY())){
-                        botones[x][y].setBackground(rutaResultado.contains(celda) ? Color.GREEN : Color.RED);
+                        if (rutaResultado.isEmpty()){
+                            botones[x][y].setBackground(Color.RED);
+                        } else {
+                            botones[x][y].setBackground(rutaResultado.contains(celda) ? Color.GREEN : Color.RED);
+                        }
                     }
                     try {
                         Thread.sleep(100);
@@ -225,13 +236,19 @@ public class ControllerView {
             long endTime = System.nanoTime();
             double tiempoDemora = (endTime - startTime) / 1_000_000.0;
             JOptionPane.showMessageDialog(viewMaze, "Tiempo de ejecucion: " + tiempoDemora + " ms");
+            System.out.println("Visitadas: " + visitados);
+            System.out.println("Ruta final: " + rutaResultado);
         } else {
-            for (Cell celda : visitadas) {
+            for (Cell celda : visitados) {
                 int x = celda.row;
                 int y = celda.col;
                 if (!(x == viewMaze.getInicioX() && y == viewMaze.getInicioY()) && 
                     !(x == viewMaze.getDesX() && y == viewMaze.getDesY())){
-                        botones[x][y].setBackground(rutaResultado.contains(celda) ? Color.GREEN : Color.RED);
+                        if (rutaResultado.isEmpty()){
+                            botones[x][y].setBackground(Color.RED);
+                        } else {
+                            botones[x][y].setBackground(rutaResultado.contains(celda) ? Color.GREEN : Color.RED);
+                        }
                     }
                 
             }
@@ -249,13 +266,14 @@ public class ControllerView {
         Cell end = new Cell(viewMaze.getDesX(), viewMaze.getDesY());
         List<Cell> rutaResultado = mazeSolverRec.getPath(new Maze(viewMaze.getMaze()), viewMaze.getMaze(), start, end);
         JButton[][] botones = viewMaze.getMazeButtons();
+        Set<Cell> visitados = mazeSolverRec.getVisitadas();
 
         reiniciarRecorrido(botones, viewMaze.getMaze());
         
         if (tiempoSeleccionado){
             long startTime = System.nanoTime();
             new Thread(() -> {
-                for (Cell celda : rutaResultado){
+                for (Cell celda : visitados){
                     int x = celda.row;
                     int y = celda.col;
                     if (!(x == viewMaze.getInicioX() && y == viewMaze.getInicioY()) && 
@@ -277,7 +295,7 @@ public class ControllerView {
             double tiempoDemora = (endTime - startTime) / 1_000_000.0;
             JOptionPane.showMessageDialog(viewMaze, "Tiempo de ejecucion: " + tiempoDemora + " ms");
         } else {
-            for (Cell celda : rutaResultado) {
+            for (Cell celda : visitados) {
                 int x = celda.row;
                 int y = celda.col;
                 if (!(x == viewMaze.getInicioX() && y == viewMaze.getInicioY()) && 
@@ -302,6 +320,7 @@ public class ControllerView {
         Cell start = new Cell(viewMaze.getInicioX(), viewMaze.getInicioY());
         Cell end = new Cell(viewMaze.getDesX(), viewMaze.getDesY());
         List<Cell> rutaResultado = mazeSolverDFS.getPath(new Maze(viewMaze.getMaze()), viewMaze.getMaze(), start, end);
+        Set<Cell> visitados = mazeSolverDFS.getVisited();
         JButton[][] botones = viewMaze.getMazeButtons();
 
         reiniciarRecorrido(botones, viewMaze.getMaze());
@@ -309,7 +328,7 @@ public class ControllerView {
         if (tiempoSeleccionado){
             long startTime = System.nanoTime();
             new Thread(() -> {
-                for (Cell celda : rutaResultado){
+                for (Cell celda : visitados){
                     int x = celda.row;
                     int y = celda.col;
                     if (!(x == viewMaze.getInicioX() && y == viewMaze.getInicioY()) && 
@@ -331,7 +350,7 @@ public class ControllerView {
             double tiempoDemora = (endTime - startTime) / 1_000_000.0;
             JOptionPane.showMessageDialog(viewMaze, "Tiempo de ejecucion: " + tiempoDemora + " ms");
         } else {
-            for (Cell celda : rutaResultado) {
+            for (Cell celda : visitados) {
                 int x = celda.row;
                 int y = celda.col;
                 if (!(x == viewMaze.getInicioX() && y == viewMaze.getInicioY()) && 

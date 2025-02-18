@@ -8,7 +8,7 @@ import models.Maze;
 
 public class MazeSolverDP implements MazeSolver {
     private Map<Cell, Boolean> memoria = new HashMap<>();
-    private Set<Cell> visitadas = new HashSet();
+    private Set<Cell> visitadas = new LinkedHashSet<>();
 
     @Override
     public List<Cell> getPath(Maze maze, boolean[][] grid, Cell start, Cell end) {
@@ -18,13 +18,14 @@ public class MazeSolverDP implements MazeSolver {
             return path;
         }
 
-        //if (findPath(grid, start.row, start.col, end, path, visitadas)) {
-            //return path;
-        //}
-        findPath(maze, grid, start.row, start.col, end, start, path, visitadas);
+        /* if (findPath(grid, start.row, start.col, end, path, visitadas)) {
+            return path;
+        }*/
+
+        boolean existPath = findPath(maze, grid, start.row, start.col, end, start, path, visitadas);
         List<Cell> pathRecorrido = new ArrayList<>(visitadas);
         
-        return path.isEmpty()? pathRecorrido : path;
+        return existPath? path : Collections.emptyList();
     }
 
     private boolean findPath(Maze maze, boolean[][] grid, int row, int col, Cell end, Cell start, List<Cell> path,  Set<Cell> visitadas) {
@@ -36,7 +37,7 @@ public class MazeSolverDP implements MazeSolver {
 
         // validamos la llegada al fin
         if(row == end.row && col == end.col){
-            path.add(cell);
+            path.add(0, cell);
             return true;
         }
 
