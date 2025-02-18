@@ -1,7 +1,7 @@
 package controllers;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,11 +25,10 @@ public class MazeSolverRecursivo implements MazeSolver{
         /*if (findPath(grid, start.row, start.col, end, path, visitadas)) {
             return path;
         }*/
-        
+
         findPath(maze, grid, start.row, start.col, end, start, path, visitadas);
-        List<Cell> pathRecorrido = new ArrayList<>(visitadas);
         
-        return path.isEmpty()? pathRecorrido : path;
+        return path.isEmpty()? Collections.emptyList() : path;
     }
         
     private boolean findPath(Maze maze, boolean[][] grid, int row, int col, Cell end, Cell start, List<Cell> path, Set<Cell> visitados) {
@@ -51,7 +50,7 @@ public class MazeSolverRecursivo implements MazeSolver{
             return true;
         }
 
-        if (findPath(maze, grid, row + 1, col, end, start, path, visitados)){
+        if (findPath(maze, grid, row - 1, col, end, start, path, visitados)){
             path.add(0, cell);
             return true;
         }
@@ -61,7 +60,7 @@ public class MazeSolverRecursivo implements MazeSolver{
             return true;
         }
 
-        if (findPath(maze, grid, row - 1, col, end, start, path, visitados)){
+        if (findPath(maze, grid, row + 1, col, end, start, path, visitados)){
             path.add(0, cell);
             return true;
         }

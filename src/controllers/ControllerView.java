@@ -170,7 +170,7 @@ public class ControllerView {
                         }
                     }
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(200);
                     } catch (InterruptedException e){
                         Thread.currentThread().interrupt();
                     }
@@ -179,8 +179,7 @@ public class ControllerView {
             long endTime = System.nanoTime();
             double tiempoDemora = (endTime - startTime) / 1_000_000.0;
             JOptionPane.showMessageDialog(viewMaze, "Tiempo de ejecucion: " + tiempoDemora + " ms");
-            System.out.println("visitadas: " + visitadas);
-            System.out.println("path resultado: " + rutaResultado);
+            viewMaze.hayCamino(rutaResultado);
         } else {
             for (Cell celda : visitadas) {
                 int x = celda.row;
@@ -194,6 +193,7 @@ public class ControllerView {
                         }
                     }
             }
+            viewMaze.hayCamino(rutaResultado);
         }
     }
 
@@ -227,7 +227,7 @@ public class ControllerView {
                         }
                     }
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(200);
                     } catch (InterruptedException e){
                         Thread.currentThread().interrupt();
                     }
@@ -236,8 +236,7 @@ public class ControllerView {
             long endTime = System.nanoTime();
             double tiempoDemora = (endTime - startTime) / 1_000_000.0;
             JOptionPane.showMessageDialog(viewMaze, "Tiempo de ejecucion: " + tiempoDemora + " ms");
-            System.out.println("Visitadas: " + visitados);
-            System.out.println("Ruta final: " + rutaResultado);
+            viewMaze.hayCamino(rutaResultado);
         } else {
             for (Cell celda : visitados) {
                 int x = celda.row;
@@ -252,6 +251,7 @@ public class ControllerView {
                     }
                 
             }
+            viewMaze.hayCamino(rutaResultado);
         }
     }
 
@@ -285,7 +285,7 @@ public class ControllerView {
                         }
                     }
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(200);
                     } catch (InterruptedException e){
                         Thread.currentThread().interrupt();
                     }
@@ -294,6 +294,7 @@ public class ControllerView {
             long endTime = System.nanoTime();
             double tiempoDemora = (endTime - startTime) / 1_000_000.0;
             JOptionPane.showMessageDialog(viewMaze, "Tiempo de ejecucion: " + tiempoDemora + " ms");
+            viewMaze.hayCamino(rutaResultado);
         } else {
             for (Cell celda : visitados) {
                 int x = celda.row;
@@ -307,6 +308,7 @@ public class ControllerView {
                         }
                     }
             }
+            viewMaze.hayCamino(rutaResultado);
         }
     }
 
@@ -340,7 +342,7 @@ public class ControllerView {
                         }
                     }
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(200);
                     } catch (InterruptedException e){
                         Thread.currentThread().interrupt();
                     }
@@ -349,6 +351,7 @@ public class ControllerView {
             long endTime = System.nanoTime();
             double tiempoDemora = (endTime - startTime) / 1_000_000.0;
             JOptionPane.showMessageDialog(viewMaze, "Tiempo de ejecucion: " + tiempoDemora + " ms");
+            viewMaze.hayCamino(rutaResultado);
         } else {
             for (Cell celda : visitados) {
                 int x = celda.row;
@@ -362,6 +365,7 @@ public class ControllerView {
                         }
                     }
             }
+            viewMaze.hayCamino(rutaResultado);
         }
     }
 

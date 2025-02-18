@@ -4,8 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.util.List;
 
 import javax.swing.*;
+
+import models.Cell;
 
 public class ViewMaze extends JFrame{
     private JPanel panelMaze, panelInferior, panelButtons, panelOpciones;
@@ -83,6 +86,7 @@ public class ViewMaze extends JFrame{
         add(panelInferior, BorderLayout.SOUTH);
 
         setSize(900, 500);
+        setName("Laberinto Proyecto Final");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -111,6 +115,12 @@ public class ViewMaze extends JFrame{
     public void ocultarOpciones(){
         panelOpciones.setVisible(false);
         panelButtons.setVisible(true);
+    }
+
+    public void hayCamino(List<Cell> rutaResultado){
+        if (rutaResultado.isEmpty()){
+            JOptionPane.showMessageDialog(this, "No se ha encontrado un camino hacia el destino :/");
+        }
     }
 
     public JButton getBtnObstaculos() {

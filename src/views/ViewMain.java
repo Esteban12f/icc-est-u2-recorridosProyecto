@@ -1,5 +1,7 @@
 package views;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
@@ -7,13 +9,14 @@ import javax.swing.*;
 
 public class ViewMain extends JFrame{
     private JPanel panel;
-    private JLabel tituloInicio, tituloDes, tituloCol, tituloRow;
+    private JLabel tituloPanel, tituloInicio, tituloDes, tituloCol, tituloRow;
     private JButton btnAceptar, btnDefault;
     private JTextField txtXInicio, txtYInicio, txtXDes, txtYDes, txtCol, txtRow;
 
 
     public ViewMain() {
         panel = new JPanel();
+        tituloPanel = new JLabel("GENERADOR DE LABERINTO");
         tituloInicio = new JLabel("INICIO");
         tituloDes = new JLabel("DESTINO");
         tituloCol = new JLabel("Numero de columnas:");
@@ -29,6 +32,8 @@ public class ViewMain extends JFrame{
         txtCol = new JTextField();
         txtRow = new JTextField();
 
+        tituloPanel.setBounds(100, 5, 300, 100);
+        tituloPanel.setFont(new Font("Times New Roman", Font.BOLD, 17));
         tituloInicio.setBounds(75, 150, 100, 100);
         tituloDes.setBounds(250, 150, 100, 100);
         tituloCol.setBounds(75, 50, 150, 100);
@@ -45,8 +50,9 @@ public class ViewMain extends JFrame{
 
         txtCol.setBounds(75, 125, 100, 30);
         txtRow.setBounds(250, 125, 100, 30);
-
+        
         panel.setLayout(null);
+        panel.add(tituloPanel);
         panel.add(tituloInicio);
         panel.add(tituloDes);
         panel.add(tituloCol);
