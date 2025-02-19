@@ -38,8 +38,8 @@ public class ControllerView {
                 int desX = Integer.parseInt(viewMain.getTxtXDes().getText());
                 int desY = Integer.parseInt(viewMain.getTxtYDes().getText());
     
-                if (inicioX >= 0 && inicioX < rows && inicioY >= 0 && inicioY < cols &&
-                    desX >= 0 && desX < rows && desY >= 0 && desY < cols ){
+                if ((inicioX >= 0 && inicioX < rows && inicioY >= 0 && inicioY < cols &&
+                    desX >= 0 && desX < rows && desY >= 0 && desY < cols) || (rows > 1 && cols > 1)){
                     viewMaze = new ViewMaze(rows, cols, inicioX, inicioY, desX, desY);
                     agregarEventosMaze();
                     viewMain.dispose();
@@ -61,10 +61,14 @@ public class ControllerView {
             try {
                 int rows = Integer.parseInt(viewMain.getTxtRow().getText());
                 int cols = Integer.parseInt(viewMain.getTxtCol().getText());
-                viewMaze = new ViewMaze(rows, cols, 0, 0, rows - 1, cols - 1);
-                agregarEventosMaze();
-                viewMain.dispose();
-                viewMaze.setVisible(true);
+                if (rows > 1 && cols > 1){
+                    viewMaze = new ViewMaze(rows, cols, 0, 0, rows - 1, cols - 1);
+                    agregarEventosMaze();
+                    viewMain.dispose();
+                    viewMaze.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(viewMain, "Ingrese valores validos para el tamaño de la matriz");
+                }
             } catch (NumberFormatException e){
                 JOptionPane.showMessageDialog(viewMain, "Ingrese valores numericos validos :/", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -112,7 +116,7 @@ public class ControllerView {
                 }
             }
         }
-
+        
         viewMaze.getBtnAceptar().addActionListener(e -> cerrarOpciones());
         viewMaze.getBtnLimpiar().addActionListener(e -> {cerrarOpciones();
             defaultBotones();});
