@@ -99,10 +99,13 @@ Además, se implementará una búsqueda recursiva, que simplifica la estructura 
 
 ### *Capturas de Pantalla*
 Imágenes de la interfaz implementada
-
-    https://github.com/Esteban12f/icc-est-u2-recorridosProyecto/blob/main/imagen_2025-02-18_235610254.png
-
-    https://github.com/Esteban12f/icc-est-u2-recorridosProyecto/blob/main/imagen_2025-02-18_235622223.png
+    ![Interfaz Principal](https://github.com/Esteban12f/icc-est-u2-recorridosProyecto/blob/main/imagen_2025-02-18_235610254.png?raw=true)
+    ![Interfaz de la Matriz](https://github.com/Esteban12f/icc-est-u2-recorridosProyecto/blob/main/imagen_2025-02-18_235622223.png?raw=true)
+    ![Poniendo los obstaculos](https://github.com/Esteban12f/icc-est-u2-recorridosProyecto/blob/main/imagen_2025-02-18_235630881.png?raw=true)
+    ![Recorrido con tiempo BFS](https://github.com/Esteban12f/icc-est-u2-recorridosProyecto/blob/main/imagen_2025-02-18_235636393.png?raw=true)
+    ![Recorrido con tiempo DFS](https://github.com/Esteban12f/icc-est-u2-recorridosProyecto/blob/main/imagen_2025-02-18_235641889.png?raw=true)
+    ![Recorrido con tiempo DP](https://github.com/Esteban12f/icc-est-u2-recorridosProyecto/blob/main/imagen_2025-02-18_235648722.png?raw=true)
+    ![Recorrido con tiempo Recursivo](https://github.com/Esteban12f/icc-est-u2-recorridosProyecto/blob/main/imagen_2025-02-18_235655290.png?raw=true)
 ---
 
 ## *Conclusiones*
