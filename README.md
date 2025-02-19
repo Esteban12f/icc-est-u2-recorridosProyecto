@@ -55,14 +55,14 @@ Desarrollar una aplicación que implemente un algoritmo para encontrar la ruta �
 - *Carrera:* Ingeniería en Ciencias de la Computación
 - *Asignatura:* Estructura de Datos
 - *Estudiantes:* Esteban Hernandez (jhernandezv3@est.ups.edu.ec)
-                Sebastian Zurita(tzuritaa@est.ups.edu.ec)
-                Emanuel León()
+                    Sebastian Zurita(tzuritaa@est.ups.edu.ec)
+                        Emanuel León(eleonj2@est.ups.edu.ec)
 - *Docente:* Ing. Pablo Torres
 
 ---
 
 ## *Descripción del Problema*
-Dado un laberinto representado como una matriz de celdas, donde algunas son transitables y otras no, se busca encontrar la ruta óptima que conecta un punto de inicio (A) con un punto de destino (B). El problema o desafío radica en diseñar un algoritmo que, utilizando estructuras de datos apropiadas y técnicas de búsqueda óptima, sea capaz de hallar el camino más eficiente en términos de distancia o costO, y a su vez también aplicar lo aprendido en cuanto interfaz gráfica, para diseñar algo atractivo e intuitivo para el usuario.
+Dado un laberinto representado como una matriz de celdas, donde algunas son transitables y otras no, se busca encontrar la ruta óptima que conecta un punto de inicio (A) con un punto de destino (B). El problema o desafío radica en diseñar un algoritmo que, utilizando estructuras de datos apropiadas y técnicas de búsqueda óptima, sea capaz de hallar el camino más eficiente en términos de distancia o costo, y a su vez también aplicar lo aprendido en cuanto interfaz gráfica, para diseñar algo atractivo e intuitivo para el usuario.
 ---
 
 ## *Propuesta de Solución*
@@ -98,7 +98,9 @@ Además, se implementará una búsqueda recursiva, que simplifica la estructura 
 - *Sebastian Zurita* Documentación y correción de errores
 
 ### *Capturas de Pantalla*
-Agregar imágenes de la interfaz implementada
+Imágenes de la interfaz implementada
+
+
 
 ---
 
