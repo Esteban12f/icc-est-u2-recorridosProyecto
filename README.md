@@ -100,8 +100,9 @@ Además, se implementará una búsqueda recursiva, que simplifica la estructura 
 ### *Capturas de Pantalla*
 Imágenes de la interfaz implementada
 
+    https://github.com/Esteban12f/icc-est-u2-recorridosProyecto/blob/main/imagen_2025-02-18_235610254.png
 
-
+    https://github.com/Esteban12f/icc-est-u2-recorridosProyecto/blob/main/imagen_2025-02-18_235622223.png
 ---
 
 ## *Conclusiones*
