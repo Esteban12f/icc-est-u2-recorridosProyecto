@@ -58,12 +58,16 @@ public class ControllerView {
 
     public void defaultMaze(){
         if (viewMain.emptyDefaultSpaces()){
-            int rows = Integer.parseInt(viewMain.getTxtRow().getText());
-            int cols = Integer.parseInt(viewMain.getTxtCol().getText());
-            viewMaze = new ViewMaze(rows, cols, 0, 0, rows - 1, cols - 1);
-            agregarEventosMaze();
-            viewMain.dispose();
-            viewMaze.setVisible(true);
+            try {
+                int rows = Integer.parseInt(viewMain.getTxtRow().getText());
+                int cols = Integer.parseInt(viewMain.getTxtCol().getText());
+                viewMaze = new ViewMaze(rows, cols, 0, 0, rows - 1, cols - 1);
+                agregarEventosMaze();
+                viewMain.dispose();
+                viewMaze.setVisible(true);
+            } catch (NumberFormatException e){
+                JOptionPane.showMessageDialog(viewMain, "Ingrese valores numericos validos :/", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
             JOptionPane.showMessageDialog(viewMain, "Se debe ingresar el tamaño del laberinto :/");
         }
